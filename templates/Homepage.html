@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Search Books | SmartLibrary</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+    <style>
+      .top-search {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
+      .top-search input {
+        flex: 1;
+        border-radius: 999px;
+        border: 1px solid var(--card-border);
+        padding: 10px 14px;
+        outline: none;
+        background: #ffffff;
+      }
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 7px 12px;
+        border-radius: 999px;
+        border: 1px solid var(--card-border);
+        background: #fff;
+        font-size: 12px;
+        font-weight: 800;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app-layout">
+      <aside class="sidebar">
+        <div class="sidebar-logo">
+          <div class="sidebar-logo-icon">S</div>
+          <div class="sidebar-logo-text">
+            <h1>SmartLibrary</h1>
+            <span>User Portal</span>
+          </div>
+        </div>
+        <nav class="sidebar-nav">
+          <a href="{{ url_for('dashboardUser_') }}" class="nav-item">
+            <div class="nav-item-icon">👤</div>
+            <span>Profile</span>
+          </a>
+          <a href="{{ url_for('home_page') }}" class="nav-item active">
+            <div class="nav-item-icon">🔎</div>
+            <span>Search Books</span>
+          </a>
+          <a href="{{ url_for('borrowing_page') }}" class="nav-item">
+            <div class="nav-item-icon">📖</div>
+            <span>Borrow</span>
+          </a>
+          <a href="{{ url_for('logout') }}" class="nav-item">
+            <div class="nav-item-icon">🚪</div>
+            <span>Logout</span>
+          </a>
+        </nav>
+
+        <div class="sidebar-status">
+          <div class="sidebar-status-header">
+            <span>Quick Tips</span>
+            <span class="status-pill">
+              <span class="status-dot"></span>
+              Online
+            </span>
+          </div>
+          <div class="sidebar-status-body">
+            <div>Search</div>
+            <div>OpenLibrary</div>
+            <div>Borrow</div>
+            <div>Dashboard</div>
+          </div>
+        </div>
+      </aside>
+
+      <main class="main">
+        <section class="page-header">
+          <div>
+            <h2>Search</h2>
+            <p>Find books by title, author, or keywords.</p>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="card">
+            <form class="top-search" action="{{ url_for('book_search') }}" method="get">
+              <input
+                name="q"
+                value="{{ query or '' }}"
+                placeholder="Search books, authors..."
+              />
+              <button class="btn-primary" type="submit">Search</button>
+            </form>
+          </div>
+
+          <div class="card">
+            <div class="toolbar">
+              <div>
+                <h3 style="font-size: 16px; margin-bottom: 4px">Results</h3>
+                <p style="font-size: 12px; color: var(--text-muted)">
+                  Results are pulled from OpenLibrary.
+                </p>
+              </div>
+              <span class="pill">Total: {{ (books|length) if books else 0 }}</span>
+            </div>
+
+            {% if books %}
+            <div class="table-card">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Title</th>
+                    <th>Authors</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for b in books %}
+                  <tr>
+                    <td style="font-weight: 800">{{ b.title }}</td>
+                    <td style="color: var(--text-muted)">{{ b.authors }}</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+            {% else %}
+            <div style="color: var(--text-muted); font-size: 13px">
+              Start by searching for a title or author.
+            </div>
+            {% endif %}
+          </div>
+
+          {% if users %}
+          <div class="card">
+            <div class="toolbar">
+              <div>
+                <h3 style="font-size: 16px; margin-bottom: 4px">Users</h3>
+                <p style="font-size: 12px; color: var(--text-muted)">
+                  From your MySQL `user` table.
+                </p>
+              </div>
+              <span class="pill">Count: {{ users|length }}</span>
+            </div>
+            <div class="table-card">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for u in users %}
+                  <tr>
+                    <td>{{ u.user_id }}</td>
+                    <td style="font-weight: 800">{{ u.name }}</td>
+                    <td style="color: var(--text-muted)">{{ u.email }}</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          {% endif %}
+        </section>
+      </main>
+    </div>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+  </body>
+</html>
+

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Sign In | SmartLibrary</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+  </head>
+  <body>
+    <div class="auth-shell">
+      <div class="auth-card">
+        <div class="auth-hero">
+          <div class="auth-brand">
+            <div class="auth-logo" aria-hidden="true">🛡️</div>
+            <div>
+              <div style="font-weight: 900; letter-spacing: -0.02em">
+                SmartLibrary
+              </div>
+              <div style="opacity: 0.9; font-size: 12px">Admin Portal</div>
+            </div>
+          </div>
+          <h1>Welcome Back</h1>
+          <p>Login to your admin account</p>
+        </div>
+
+        <div class="auth-body">
+          {% with messages = get_flashed_messages() %}
+          {% if messages %}
+          <div class="flash">{{ messages[0] }}</div>
+          {% endif %}
+          {% endwith %}
+
+          {% if error %}
+          <div class="flash">{{ error }}</div>
+          {% endif %}
+
+          <div class="auth-title">Sign In</div>
+          <div class="auth-subtitle">Enter your credentials to continue</div>
+
+          <form action="{{ url_for('loginAdmin_process') }}" method="post">
+            <div class="field">
+              <label for="email">Email</label>
+              <div class="input-wrap">
+                <span class="input-icon">👤</span>
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  placeholder="Admin email"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="password">Password</label>
+              <div class="input-wrap">
+                <span class="input-icon">🔒</span>
+                <input
+                  id="password"
+                  name="password"
+                  type="password"
+                  placeholder="Password"
+                  required
+                />
+                <button
+                  class="pw-toggle"
+                  type="button"
+                  aria-label="Show password"
+                  aria-pressed="false"
+                  data-toggle-password="password"
+                >
+                  👁️
+                </button>
+              </div>
+            </div>
+
+            <div class="auth-row">
+              <a class="auth-link" href="{{ url_for('landing_page') }}">Home</a>
+              <a class="auth-link" href="{{ url_for('forgot_password') }}"
+                >Forgot Password?</a
+              >
+            </div>
+
+            <button class="btn-submit" type="submit">Sign In</button>
+
+            <div class="auth-footer">
+              Need an admin account?
+              <a class="auth-link" href="{{ url_for('signupAdmin_page') }}"
+                >Create admin</a
+              >
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+  </body>
+</html>
+

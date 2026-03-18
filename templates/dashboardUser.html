@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Dashboard | SmartLibrary</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+    <style>
+      /* small page-specific tweaks to match screenshot */
+      .user-header {
+        background: linear-gradient(120deg, #00b2e2, #0078ff, #7a5cfd);
+        border-radius: 26px;
+        padding: 22px 22px 18px;
+        color: #fff;
+        box-shadow: var(--shadow-soft);
+        position: relative;
+        overflow: hidden;
+      }
+      .user-header h2 {
+        font-size: 22px;
+        margin: 6px 0 2px;
+      }
+      .user-header .sub {
+        opacity: 0.9;
+        font-size: 13px;
+      }
+      .chip-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 12px;
+      }
+      .chip {
+        background: rgba(255, 255, 255, 0.16);
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        color: #fff;
+        border-radius: 999px;
+        padding: 6px 10px;
+        font-size: 12px;
+        white-space: nowrap;
+      }
+      .two-col {
+        display: grid;
+        grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+        gap: 16px;
+      }
+      @media (max-width: 960px) {
+        .two-col {
+          grid-template-columns: 1fr;
+        }
+      }
+      .review-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 10px;
+      }
+      .tag {
+        border-radius: 999px;
+        padding: 6px 10px;
+        font-size: 12px;
+        border: 1px solid var(--card-border);
+        background: #f7f9ff;
+        color: var(--text-muted);
+      }
+      .scan-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 12px;
+        border-radius: 999px;
+        border: 1px solid var(--card-border);
+        background: #ffffff;
+        font-weight: 800;
+        font-size: 12px;
+      }
+      .scan-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 999px;
+        background: #12cf87;
+      }
+      .muted {
+        color: var(--text-muted);
+      }
+      .mini-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+      }
+      .mini-table th,
+      .mini-table td {
+        padding: 10px 12px;
+        border-bottom: 1px solid #ecf0fb;
+        text-align: left;
+      }
+      .mini-table thead {
+        color: var(--text-muted);
+      }
+      .textarea {
+        width: 100%;
+        min-height: 110px;
+        border-radius: 16px;
+        border: 1px solid var(--card-border);
+        background: #f7f9ff;
+        padding: 12px 12px;
+        outline: none;
+        resize: vertical;
+        font-size: 14px;
+      }
+    </style>
+  </head>
+  <body data-page="user-dashboard">
+    <div class="app-layout">
+      <aside class="sidebar">
+        <div class="sidebar-logo">
+          <div class="sidebar-logo-icon">S</div>
+          <div class="sidebar-logo-text">
+            <h1>SmartLibrary</h1>
+            <span>User Portal</span>
+          </div>
+        </div>
+
+        <nav class="sidebar-nav">
+          <a href="{{ url_for('dashboardUser_') }}" class="nav-item" data-page="user-dashboard">
+            <div class="nav-item-icon">👤</div>
+            <span>Profile</span>
+          </a>
+          <a href="{{ url_for('home_page') }}" class="nav-item" data-page="home">
+            <div class="nav-item-icon">🔎</div>
+            <span>Search Books</span>
+          </a>
+          <a href="{{ url_for('borrowing_page') }}" class="nav-item" data-page="borrow">
+            <div class="nav-item-icon">📖</div>
+            <span>Borrow</span>
+          </a>
+          <a href="{{ url_for('logout') }}" class="nav-item">
+            <div class="nav-item-icon">🚪</div>
+            <span>Logout</span>
+          </a>
+        </nav>
+
+        <div class="sidebar-status">
+          <div class="sidebar-status-header">
+            <span>RFID Status</span>
+            <span class="status-pill">
+              <span class="status-dot"></span>
+              Active
+            </span>
+          </div>
+          <div class="sidebar-status-body">
+            <div>Port</div>
+            <div>{{ "COM3" }}</div>
+            <div>Last UID</div>
+            <div>{{ last_uid or "—" }}</div>
+          </div>
+        </div>
+      </aside>
+
+      <main class="main">
+        <header class="topbar">
+          <div></div>
+          <div class="topbar-right">
+            <span>{{ (user_info.email if user_info else "") }}</span>
+            <span class="badge-pill">
+              <span class="status-dot"></span>
+              Signed In
+            </span>
+          </div>
+        </header>
+
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div class="flash">{{ messages[0] }}</div>
+        {% endif %}
+        {% endwith %}
+
+        <section class="user-header">
+          <div style="display: flex; align-items: center; gap: 12px">
+            <div
+              style="
+                width: 54px;
+                height: 54px;
+                border-radius: 18px;
+                background: rgba(255, 255, 255, 0.16);
+                border: 1px solid rgba(255, 255, 255, 0.25);
+                display: grid;
+                place-items: center;
+                font-weight: 900;
+                font-size: 18px;
+              "
+              aria-hidden="true"
+            >
+              👤
+            </div>
+            <div>
+              <div style="opacity: 0.92; font-size: 12px">Profile</div>
+              <h2>{{ user_info.name if user_info else user_name }}</h2>
+              <div class="sub">Your personal reading space</div>
+            </div>
+          </div>
+
+          <div class="chip-row">
+            <span class="chip">Fantasy Lover</span>
+            <span class="chip">Mystery Fan</span>
+            <span class="chip">Romance Reader</span>
+            <span class="chip">Character-Driven Stories</span>
+            <span class="chip">Strong Female Leads</span>
+            <span class="chip">Epic Adventures</span>
+          </div>
+        </section>
+
+        <section class="section two-col">
+          <div class="card">
+            <div class="toolbar">
+              <div>
+                <h3 style="font-size: 16px; margin-bottom: 4px">
+                  Reading Activity &amp; Reviews
+                </h3>
+                <p style="font-size: 12px; color: var(--text-muted)">
+                  Share your thoughts and feelings about the book.
+                </p>
+              </div>
+              <span class="scan-pill" title="Last scanned RFID UID">
+                <span class="scan-dot"></span>
+                RFID: {{ last_uid or "No scan yet" }}
+              </span>
+            </div>
+
+            <div class="muted" style="font-size: 12px; font-weight: 800">
+              How did this book make you feel?
+            </div>
+            <div class="review-tags">
+              <span class="tag">Happy</span>
+              <span class="tag">Excited</span>
+              <span class="tag">Inspired</span>
+              <span class="tag">Sad</span>
+              <span class="tag">Thoughtful</span>
+              <span class="tag">Amazed</span>
+              <span class="tag">Emotional</span>
+              <span class="tag">Peaceful</span>
+              <span class="tag">Thrilled</span>
+              <span class="tag">Reflective</span>
+            </div>
+
+            <div style="margin-top: 14px; display: grid; gap: 8px">
+              <div class="muted" style="font-size: 12px; font-weight: 800">
+                Write your review
+              </div>
+              <textarea
+                class="textarea"
+                placeholder="Share your thoughts about the book, character plot, or anything that resonated with you..."
+              ></textarea>
+              <button class="btn-primary" type="button">Save Review</button>
+              <div class="muted" style="font-size: 12px">
+                This is saved locally (demo). Connect to DB later if needed.
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">
+              <span>Your Stats</span>
+              <div class="card-title-pill">📊</div>
+            </div>
+            <div style="display: grid; gap: 10px">
+              <div style="display: flex; justify-content: space-between">
+                <span class="muted">Total Borrowed</span>
+                <strong>{{ total_borrowed }}</strong>
+              </div>
+              <div style="display: flex; justify-content: space-between">
+                <span class="muted">User ID</span>
+                <strong>{{ user_info.user_id if user_info else "—" }}</strong>
+              </div>
+              <div style="display: flex; justify-content: space-between">
+                <span class="muted">Email</span>
+                <strong>{{ user_info.email if user_info else "—" }}</strong>
+              </div>
+            </div>
+
+            <div style="height: 12px"></div>
+            <div class="card-title">
+              <span>Recent RFID Scans</span>
+              <div class="card-title-pill">🪪</div>
+            </div>
+
+            {% if recent_scans and recent_scans|length > 0 %}
+            <table class="mini-table" aria-label="Recent RFID scans">
+              <thead>
+                <tr>
+                  <th>UID</th>
+                  <th>Time</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for s in recent_scans %}
+                <tr>
+                  <td style="font-weight: 800">{{ s.uid }}</td>
+                  <td class="muted">{{ s.scanned_at }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+            {% else %}
+            <div class="muted" style="font-size: 13px">
+              No scans recorded yet. Scan your RFID card on the login page.
+            </div>
+            {% endif %}
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+  </body>
+</html>
+

@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Arduino Library – Members</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}" />
+  </head>
+  <body data-page="members">
+    <div class="app-layout">
+      <!-- Sidebar -->
+      <aside class="sidebar">
+        <div class="sidebar-logo">
+          <div class="sidebar-logo-icon">A</div>
+          <div class="sidebar-logo-text">
+            <h1>Arduino Library</h1>
+            <span>Smart Management System</span>
+          </div>
+        </div>
+
+       
+        <nav class="sidebar-nav">
+          <a href="{{url_for('landing_page')}}" class="nav-item" data-page="dashboard">
+            <div class="nav-item-icon">🏠</div>
+            <span>Dashboard</span>
+          </a>
+          <a href="{{url_for('books_page')}}" class="nav-item" data-page="books">
+            <div class="nav-item-icon">📚</div>
+            <span>Books</span>
+          </a>
+          <a href="{{url_for('members_page')}}" class="nav-item" data-page="members">
+            <div class="nav-item-icon">👥</div>
+            <span>Members</span>
+          </a>
+          <a href="{{url_for('checkout_page')}}" class="nav-item" data-page="checkout">
+            <div class="nav-item-icon">🔁</div>
+            <span>Checkout</span>
+          </a>
+          <a href="{{url_for('logout_admin')}}" class="nav-item">
+            <div class="nav-item-icon">🚪</div>
+            <span>Logout</span>
+          </a>
+        </nav>
+
+        <div class="sidebar-status">
+          <div class="sidebar-status-header">
+            <span>Arduino Status</span>
+            <span class="status-pill">
+              <span class="status-dot"></span>
+              Active
+            </span>
+          </div>
+          <div class="sidebar-status-body">
+            <div>Connection</div>
+            <div>Active</div>
+            <div>Port</div>
+            <div>COM3</div>
+            <div>Board</div>
+            <div>UNO R3</div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main -->
+      <main class="main">
+        <header class="topbar">
+          <div></div>
+          <div class="topbar-right">
+            <span>Sat, Mar 7</span>
+            <span class="badge-pill">
+              <span class="status-dot"></span>
+              UNO Connected
+            </span>
+          </div>
+        </header>
+
+        <section class="page-header">
+          <div>
+            <h2>Members Management</h2>
+            <p>Manage library members and their accounts.</p>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="card">
+            <div class="toolbar">
+              <div>
+                <h3 style="font-size: 16px; margin-bottom: 4px">
+                  Member Directory
+                </h3>
+                <p style="font-size: 12px; color: var(--text-muted)">
+                  Search and manage your library members
+                </p>
+              </div>
+              <button class="btn-primary">
+                <span>＋</span>
+                Add Member
+              </button>
+            </div>
+
+            <div class="toolbar">
+              <div class="search-input-wrap">
+                <span class="search-icon">🔍</span>
+                <input
+                  type="text"
+                  placeholder="Search by name, email, or phone..."
+                />
+              </div>
+
+              <div class="filter-pills">
+                <button
+                  class="filter-pill active"
+                  data-members-filter="all"
+                >
+                  All
+                </button>
+                <button class="filter-pill" data-members-filter="active">
+                  Active
+                </button>
+                <button class="filter-pill" data-members-filter="inactive">
+                  Inactive
+                </button>
+              </div>
+            </div>
+
+            <div class="table-card">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Member</th>
+                    <th>Contact</th>
+                    <th>Membership Date</th>
+                    <th>Books Out</th>
+                    <th>Status</th>
+                    <th style="width: 110px">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr data-member-status="active">
+                    <td>
+                      <div class="table-avatar">
+                        <div
+                          style="
+                            width:32px;
+                            height:32px;
+                            border-radius:50%;
+                            background:#e7efff;
+                            display:flex;
+                            align-items:center;
+                            justify-content:center;
+                            font-size:13px;
+                            font-weight:600;
+                            color:#4b5bb5;
+                          "
+                        >
+                          JS
+                        </div>
+                        <div>
+                          <div style="font-weight: 600; font-size: 13px">
+                            
+                          </div>
+                          <small style="color: var(--text-muted)">ID: 1</small>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      @email.com<br />
+                      <small style="color: var(--text-muted)"
+                        >+1 (555) 123-4567</small
+                      >
+                    </td>
+                    <td>Jan 15, 2024</td>
+                    <td>2</td>
+                    <td>
+                      <span class="chip-status active">active</span>
+                    </td>
+                    <td>
+                      <div class="table-actions">
+                        <button class="icon-btn">✏️</button>
+                        <button class="icon-btn delete">🗑️</button>
+                      </div>
+                    </td>
+                  </tr>
+
+                  <tr data-member-status="active">
+                    <td>
+                      <div class="table-avatar">
+                        <div
+                          style="
+                            width:32px;
+                            height:32px;
+                            border-radius:50%;
+                            background:#f3e9ff;
+                            display:flex;
+                            align-items:center;
+                            justify-content:center;
+                            font-size:13px;
+                            font-weight:600;
+                            color:#7b4fb4;
+                          "
+                        >
+                          SJ
+                        </div>
+                        <div>
+                          <div style="font-weight: 600; font-size: 13px">
+                            
+                          </div>
+                          <small style="color: var(--text-muted)">ID: 2</small>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <br />
+                      <small style="color: var(--text-muted)"
+                        >+1 (555) 234-5678</small
+                      >
+                    </td>
+                    <td>Feb 20, 2024</td>
+                    <td>1</td>
+                    <td>
+                      <span class="chip-status active">active</span>
+                    </td>
+                    <td>
+                      <div class="table-actions">
+                        <button class="icon-btn">✏️</button>
+                        <button class="icon-btn delete">🗑️</button>
+                      </div>
+                    </td>
+                  </tr>
+
+                  <tr data-member-status="active">
+                    <td>
+                      <div class="table-avatar">
+                        <div
+                          style="
+                            width:32px;
+                            height:32px;
+                            border-radius:50%;
+                            background:#e9fbf4;
+                            display:flex;
+                            align-items:center;
+                            justify-content:center;
+                            font-size:13px;
+                            font-weight:600;
+                            color:#0f9c6b;
+                          "
+                        >
+                          MD
+                        </div>
+                        <div>
+                          <div style="font-weight: 600; font-size: 13px">
+                            Mike Davis
+                          </div>
+                          <small style="color: var(--text-muted)">ID: 3</small>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      mike.d@email.com<br />
+                      <small style="color: var(--text-muted)"
+                        >+1 (555) 345-6789</small
+                      >
+                    </td>
+                    <td>Nov 10, 2023</td>
+                    <td>0</td>
+                    <td>
+                      <span class="chip-status active">active</span>
+                    </td>
+                    <td>
+                      <div class="table-actions">
+                        <button class="icon-btn">✏️</button>
+                        <button class="icon-btn delete">🗑️</button>
+                      </div>
+                    </td>
+                  </tr>
+
+                  <tr data-member-status="active">
+                    <td>
+                      <div class="table-avatar">
+                        <div
+                          style="
+                            width:32px;
+                            height:32px;
+                            border-radius:50%;
+                            background:#e7f5ff;
+                            display:flex;
+                            align-items:center;
+                            justify-content:center;
+                            font-size:13px;
+                            font-weight:600;
+                            color:#1c6fbe;
+                          "
+                        >
+                          EW
+                        </div>
+                        <div>
+                          <div style="font-weight: 600; font-size: 13px">
+                            Emma Wilson
+                          </div>
+                          <small style="color: var(--text-muted)">ID: 4</small>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      emma.w@email.com<br />
+                      <small style="color: var(--text-muted)"
+                        >+1 (555) 456-7890</small
+                      >
+                    </td>
+                    <td>Mar 4, 2024</td>
+                    <td>3</td>
+                    <td>
+                      <span class="chip-status active">active</span>
+                    </td>
+                    <td>
+                      <div class="table-actions">
+                        <button class="icon-btn">✏️</button>
+                        <button class="icon-btn delete">🗑️</button>
+                      </div>
+                    </td>
+                  </tr>
+
+                  <tr data-member-status="inactive">
+                    <td>
+                      <div class="table-avatar">
+                        <div
+                          style="
+                            width:32px;
+                            height:32px;
+                            border-radius:50%;
+                            background:#fff4e5;
+                            display:flex;
+                            align-items:center;
+                            justify-content:center;
+                            font-size:13px;
+                            font-weight:600;
+                            color:#d97706;
+                          "
+                        >
+                          LB
+                        </div>
+                        <div>
+                          <div style="font-weight: 600; font-size: 13px">
+                            Lisa Brown
+                          </div>
+                          <small style="color: var(--text-muted)">ID: 5</small>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      lisa.b@email.com<br />
+                      <small style="color: var(--text-muted)"
+                        >+1 (555) 567-8907</small
+                      >
+                    </td>
+                    <td>Aug 22, 2023</td>
+                    <td>0</td>
+                    <td>
+                      <span class="chip-status inactive">inactive</span>
+                    </td>
+                    <td>
+                      <div class="table-actions">
+                        <button class="icon-btn">✏️</button>
+                        <button class="icon-btn delete">🗑️</button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+  </body>
+</html>

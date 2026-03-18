@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Arduino Library – Books</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}" />
+  </head>
+  <body data-page="books">
+    <div class="app-layout">
+      <!-- Sidebar (same as dashboard) -->
+      <aside class="sidebar">
+        <div class="sidebar-logo">
+          <div class="sidebar-logo-icon">A</div>
+          <div class="sidebar-logo-text">
+            <h1>Arduino Library</h1>
+            <span>Smart Management System</span>
+          </div>
+        </div>
+
+        <nav class="sidebar-nav">
+          <a href="{{url_for('dashboardAdmin_')}}" class="nav-item" data-page="dashboard">
+            <div class="nav-item-icon">🏠</div>
+            <span>Dashboard</span>
+          </a>
+          <a href="{{url_for('books_page')}}" class="nav-item" data-page="books">
+            <div class="nav-item-icon">📚</div>
+            <span>Books</span>
+          </a>
+          <a href="{{url_for('members_page')}}" class="nav-item" data-page="members">
+            <div class="nav-item-icon">👥</div>
+            <span>Members</span>
+          </a>
+          <a href="{{url_for('checkout_page')}}" class="nav-item" data-page="checkout">
+            <div class="nav-item-icon">🔁</div>
+            <span>Checkout</span>
+          </a>
+          <a href="{{url_for('logout_admin')}}" class="nav-item">
+            <div class="nav-item-icon">🚪</div>
+            <span>Logout</span>
+          </a>
+        </nav>
+
+        <div class="sidebar-status">
+          <div class="sidebar-status-header">
+            <span>Arduino Status</span>
+            <span class="status-pill">
+              <span class="status-dot"></span>
+              Active
+            </span>
+          </div>
+          <div class="sidebar-status-body">
+            <div>Connection</div>
+            <div>Active</div>
+            <div>Port</div>
+            <div>COM3</div>
+            <div>Board</div>
+            <div>UNO R3</div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main -->
+      <main class="main">
+        <header class="topbar">
+          <div></div>
+          <div class="topbar-right">
+            <span>Sat, Mar 7</span>
+            <span class="badge-pill">
+              <span class="status-dot"></span>
+              UNO Connected
+            </span>
+          </div>
+        </header>
+
+        <section class="page-header">
+          <div>
+            <h2>Books Management</h2>
+            <p>Manage your library's book collection.</p>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="card">
+            <div class="toolbar">
+              <div>
+                <h3 style="font-size: 16px; margin-bottom: 4px">Book Catalog</h3>
+                <p style="font-size: 12px; color: var(--text-muted)">
+                  Search and filter your book collection
+                </p>
+              </div>
+              <button class="btn-primary">
+                <span>＋</span>
+                Add Book
+              </button>
+            </div>
+
+            <div class="toolbar">
+              <div class="search-input-wrap">
+                <span class="search-icon">🔍</span>
+                <input
+                  type="text"
+                  placeholder="Search by title, author, or ISBN..."
+                />
+              </div>
+              <select
+                style="
+                  border-radius: 999px;
+                  border: 1px solid var(--card-border);
+                  padding: 9px 14px;
+                  font-size: 13px;
+                  background: #ffffff;
+                  color: var(--text-muted);
+                "
+              >
+                <option>All Categories</option>
+                <option>Fiction</option>
+                <option>Science</option>
+                <option>Technology</option>
+                <option>Biography</option>
+                <option>Mystery</option>
+              </select>
+            </div>
+
+            <div class="table-card">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 220px">Cover</th>
+                    <th>Author</th>
+                    <th>ISBN</th>
+                    <th>Category</th>
+                    <th>Year</th>
+                    <th>Availability</th>
+                    <th style="width: 110px">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <div class="table-avatar">
+                        <img
+                          src="https://images.pexels.com/photos/46274/pexels-photo-46274.jpeg?auto=compress&cs=tinysrgb&w=400"
+                          alt="The Great Gatsby"
+                        />
+                        <div>
+                          <div style="font-weight: 600; font-size: 13px">
+                            The Great Gatsby
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>F. Scott Fitzgerald</td>
+                    <td>978-0-7432-7356-5</td>
+                    <td>Fiction</td>
+                    <td>1925</td>
+                    <td><span class="badge-small">3 / 5</span></td>
+                    <td>
+                      <div class="table-actions">
+                        <button class="icon-btn">✏️</button>
+                        <button class="icon-btn delete">🗑️</button>
+                      </div>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td>
+                      <div class="table-avatar">
+                        <img
+                          src="https://images.pexels.com/photos/256541/pexels-photo-256541.jpeg?auto=compress&cs=tinysrgb&w=400"
+                          alt="A Brief History of Time"
+                        />
+                        <div>
+                          <div style="font-weight: 600; font-size: 13px">
+                            A Brief History of Time
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>Stephen Hawking</td>
+                    <td>978-0-553-10953-5</td>
+                    <td>Science</td>
+                    <td>1988</td>
+                    <td><span class="badge-small">2 / 3</span></td>
+                    <td>
+                      <div class="table-actions">
+                        <button class="icon-btn">✏️</button>
+                        <button class="icon-btn delete">🗑️</button>
+                      </div>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td>
+                      <div class="table-avatar">
+                        <img
+                          src="https://images.pexels.com/photos/46274/pexels-photo-46274.jpeg?auto=compress&cs=tinysrgb&w=400"
+                          alt="The Da Vinci Code"
+                        />
+                        <div>
+                          <div style="font-weight: 600; font-size: 13px">
+                            The Da Vinci Code
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>Dan Brown</td>
+                    <td>978-0-385-50420-8</td>
+                    <td>Mystery</td>
+                    <td>2003</td>
+                    <td><span class="badge-small">4 / 7</span></td>
+                    <td>
+                      <div class="table-actions">
+                        <button class="icon-btn">✏️</button>
+                        <button class="icon-btn delete">🗑️</button>
+                      </div>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td>
+                      <div class="table-avatar">
+                        <img
+                          src="https://images.pexels.com/photos/46274/pexels-photo-46274.jpeg?auto=compress&cs=tinysrgb&w=400"
+                          alt="Steve Jobs"
+                        />
+                        <div>
+                          <div style="font-weight: 600; font-size: 13px">
+                            Steve Jobs
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>Walter Isaacson</td>
+                    <td>978-1-4516-4853-9</td>
+                    <td>Biography</td>
+                    <td>2011</td>
+                    <td><span class="badge-small">4 / 4</span></td>
+                    <td>
+                      <div class="table-actions">
+                        <button class="icon-btn">✏️</button>
+                        <button class="icon-btn delete">🗑️</button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+  </body>
+</html>

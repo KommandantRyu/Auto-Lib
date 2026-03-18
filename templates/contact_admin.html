@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact Admin | SmartLibrary</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+  </head>
+  <body>
+    <div class="auth-shell">
+      <div class="auth-card">
+        <div class="auth-hero">
+          <div class="auth-brand">
+            <div class="auth-logo" aria-hidden="true">☎️</div>
+            <div>
+              <div style="font-weight: 900; letter-spacing: -0.02em">
+                SmartLibrary
+              </div>
+              <div style="opacity: 0.9; font-size: 12px">Support</div>
+            </div>
+          </div>
+          <h1>Need Help?</h1>
+          <p>Contact the library administrator</p>
+        </div>
+
+        <div class="auth-body">
+          <div class="auth-subtitle">
+            Replace the details below with your real admin contact info.
+          </div>
+
+          <div class="card" style="border-radius: 22px">
+            <div style="display: grid; gap: 8px; font-size: 13px">
+              <div><strong>Email:</strong> admin@smartlibrary.local</div>
+              <div><strong>Phone:</strong> +63 900 000 0000</div>
+              <div><strong>Office:</strong> Library Front Desk</div>
+            </div>
+          </div>
+
+          <div style="height: 12px"></div>
+
+          <div style="display: grid; gap: 10px">
+            <a class="btn-primary" href="{{ url_for('login_page') }}"
+              >Back to User Login</a
+            >
+            <a class="btn-outline" href="{{ url_for('loginAdmin_page') }}"
+              >Back to Admin Login</a
+            >
+            <a class="btn-outline" href="{{ url_for('landing_page') }}">Home</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+

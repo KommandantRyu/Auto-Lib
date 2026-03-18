@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Arduino Library – Dashboard</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}" />
+  </head>
+  <body data-page="dashboard">
+    <div class="app-layout">
+      <!-- Sidebar -->
+      <aside class="sidebar">
+        <div class="sidebar-logo">
+          <div class="sidebar-logo-icon">A</div>
+          <div class="sidebar-logo-text">
+            <h1>Library System</h1>
+            <span>Smart Management System</span>
+          </div>
+        </div>
+
+        <nav class="sidebar-nav">
+          <a href="{{url_for('dashboardAdmin_')}}" class="nav-item" data-page="dashboard">
+            <div class="nav-item-icon">🏠</div>
+            <span>Dashboard</span>
+          </a>
+          <a href="{{url_for('books_page')}}" class="nav-item" data-page="books">
+            <div class="nav-item-icon">📚</div>
+            <span>Books</span>
+          </a>
+          <a href="{{url_for('members_page')}}" class="nav-item" data-page="members">
+            <div class="nav-item-icon">👥</div>
+            <span>Members</span>
+          </a>
+          <a href="{{url_for('checkout_page')}}" class="nav-item" data-page="checkout">
+            <div class="nav-item-icon">🔁</div>
+            <span>Checkout</span>
+          </a>
+          <a href="{{url_for('logout_admin')}}" class="nav-item">
+            <div class="nav-item-icon">🚪</div>
+            <span>Logout</span>
+          </a>
+        </nav>
+
+
+        <div class="sidebar-status">
+          <div class="sidebar-status-header">
+            <span>Arduino Status</span>
+            <span class="status-pill">
+              <span class="status-dot"></span>
+              Active
+            </span>
+          </div>
+          <div class="sidebar-status-body">
+            <div>Connection</div>
+            <div>Active</div>
+            <div>Port</div>
+            <div>COM3</div>
+            <div>Board</div>
+            <div>UNO R3</div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main -->
+      <main class="main">
+        <header class="topbar">
+          <div></div>
+          <div class="topbar-right">
+            <span>Sat, Mar 7</span>
+            <span class="badge-pill">
+              <span class="status-dot"></span>
+              UNO Connected
+            </span>
+          </div>
+        </header>
+
+        <section class="page-header">
+          <div>
+            <h2>Dashboard Overview</h2>
+            <p>Real-time insights and analytics for your smart library system.</p>
+          </div>
+          <button class="page-header-settings">⚙️</button>
+        </section>
+
+        <section class="section">
+          <!-- Metrics cards -->
+          <div class="cards-row">
+            <div class="card">
+              <div class="card-title">
+                <span>Total Users</span>
+                <div class="card-title-pill">📘</div>
+              </div>
+              <div class="card-value-row">
+                <div class="card-value">{{ total_users or 0 }}</div>
+                <div class="card-trend trend-up">
+                  <span style="color: var(--text-muted)">from database</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-title">
+                <span>Unique Users Scanned</span>
+                <div class="card-title-pill">👤</div>
+              </div>
+              <div class="card-value-row">
+                <div class="card-value">{{ unique_users_scanned or 0 }}</div>
+                <div class="card-trend trend-up">
+                  <span style="color: var(--text-muted)">distinct registered users</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-title">
+                <span>Total RFID Scans</span>
+                <div class="card-title-pill">📖</div>
+              </div>
+              <div class="card-value-row">
+                <div class="card-value">{{ total_scans or 0 }}</div>
+                <div class="card-trend trend-up">
+                  <span style="color: var(--text-muted)">all time</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-title">
+                <span>Blue Key UID Scans</span>
+                <div class="card-title-pill">⏰</div>
+              </div>
+              <div class="card-value-row">
+                <div class="card-value">{{ blue_key_scans or 0 }}</div>
+                <div class="card-trend trend-up">
+                  <span style="color: var(--text-muted)">UID: {{ blue_key_uid or "3E76C301" }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Charts row -->
+          <div class="dashboard-grid">
+            <div class="card">
+              <div class="chart-card-header">
+                <div>
+                  <div class="card-title" style="margin-bottom: 0">
+                    <span>Monthly Activity</span>
+                  </div>
+                  <small style="color: var(--text-muted); font-size: 12px">
+                    Book checkouts and returns over the last 6 months
+                  </small>
+                </div>
+              </div>
+
+              <div class="chart-placeholder">
+                <div class="chart-line">
+                  <div class="chart-point"></div>
+                  <div class="chart-point"></div>
+                  <div class="chart-point"></div>
+                  <div class="chart-point"></div>
+                  <div class="chart-point"></div>
+                  <div class="chart-point"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="chart-card-header">
+                <div>
+                  <div class="card-title" style="margin-bottom: 0">
+                    <span>Books by Category</span>
+                  </div>
+                  <small style="color: var(--text-muted); font-size: 12px">
+                    Distribution of books across different categories
+                  </small>
+                </div>
+              </div>
+
+              <div class="pie-layout">
+                <div class="pie"></div>
+                <div class="pie-legend">
+                  <div class="legend-item">
+                    <span
+                      class="legend-dot"
+                      style="background:#7c9bff"
+                    ></span>
+                    <span>Fiction – 30%</span>
+                  </div>
+                  <div class="legend-item">
+                    <span
+                      class="legend-dot"
+                      style="background:#ffb347"
+                    ></span>
+                    <span>Science – 21%</span>
+                  </div>
+                  <div class="legend-item">
+                    <span
+                      class="legend-dot"
+                      style="background:#5fd4a5"
+                    ></span>
+                    <span>Technology – 17%</span>
+                  </div>
+                  <div class="legend-item">
+                    <span
+                      class="legend-dot"
+                      style="background:#ff6fa9"
+                    ></span>
+                    <span>History – 19%</span>
+                  </div>
+                  <div class="legend-item">
+                    <span
+                      class="legend-dot"
+                      style="background:#8e9ab0"
+                    ></span>
+                    <span>Other – 13%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+  </body>
+</html>
+
+<script>
+function checkBlueKey() {
+    fetch('/blue_key_alert')
+        .then(res => res.json())
+        .then(data => {
+            if (data.alert) {
+                alert("Blue key scanned for user: " + (data.user ? data.user.name : "Unknown"));
+                if (data.user) {
+                    // Redirect to that user's dashboard view (read-only)
+                    window.location.href = "/view_user/" + data.user.user_id;
+                }
+            }
+        });
+}
+
+// Poll every 2 seconds
+setInterval(checkBlueKey, 2000);
+</script>

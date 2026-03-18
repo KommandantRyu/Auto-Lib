@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Sign Up | SmartLibrary</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+  </head>
+  <body>
+    <div class="auth-shell">
+      <div class="auth-card">
+        <div class="auth-hero">
+          <div class="auth-brand">
+            <div class="auth-logo" aria-hidden="true">📚</div>
+            <div>
+              <div style="font-weight: 900; letter-spacing: -0.02em">
+                SmartLibrary
+              </div>
+              <div style="opacity: 0.9; font-size: 12px">
+                Create your account
+              </div>
+            </div>
+          </div>
+          <h1>Sign Up</h1>
+          <p>Register to start using RFID login</p>
+        </div>
+
+        <div class="auth-body">
+          {% with messages = get_flashed_messages() %}
+          {% if messages %}
+          <div class="flash">{{ messages[0] }}</div>
+          {% endif %}
+          {% endwith %}
+
+          {% if error %}
+          <div class="flash">{{ error }}</div>
+          {% endif %}
+
+          <div class="auth-title">Register</div>
+          <div class="auth-subtitle">Fill in the details below</div>
+
+          <form action="{{ url_for('signup_process') }}" method="post">
+            <div class="field">
+              <label for="username">Name</label>
+              <div class="input-wrap">
+                <span class="input-icon">🧑</span>
+                <input
+                  type="text"
+                  id="username"
+                  name="username"
+                  placeholder="Full name"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="email">Email</label>
+              <div class="input-wrap">
+                <span class="input-icon">✉️</span>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  placeholder="Email address"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="password">Password</label>
+              <div class="input-wrap">
+                <span class="input-icon">🔒</span>
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  placeholder="Create password"
+                  required
+                />
+                <button
+                  class="pw-toggle"
+                  type="button"
+                  aria-label="Show password"
+                  aria-pressed="false"
+                  data-toggle-password="password"
+                >
+                  👁️
+                </button>
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="confirm_password">Confirm Password</label>
+              <div class="input-wrap">
+                <span class="input-icon">🔒</span>
+                <input
+                  type="password"
+                  id="confirm_password"
+                  name="confirm_password"
+                  placeholder="Confirm password"
+                  required
+                />
+                <button
+                  class="pw-toggle"
+                  type="button"
+                  aria-label="Show password"
+                  aria-pressed="false"
+                  data-toggle-password="confirm_password"
+                >
+                  👁️
+                </button>
+              </div>
+            </div>
+
+            <button type="submit" class="btn-submit">Create your account</button>
+
+            <div class="auth-footer">
+              Already have an account?
+              <a class="auth-link" href="{{ url_for('login_page') }}">Log In</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+  </body>
+</html>
