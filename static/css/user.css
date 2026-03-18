@@ -1,0 +1,60 @@
+/* User theme (colors + tokens) */
+:root {
+  --sidebar-bg: #0f9cba;
+  --sidebar-bg-dark: #0b7e96;
+  --sidebar-active: #ffffff;
+  --sidebar-text: #e4f7fb;
+  --sidebar-icon-bg: rgba(255, 255, 255, 0.16);
+
+  --main-bg: #f5f8fc;
+  --card-bg: #ffffff;
+  --card-border: #e4ebf5;
+  --text-main: #1c2434;
+  --text-muted: #7b8bb1;
+
+  --accent: #00c89c;
+  --accent-soft: rgba(0, 200, 156, 0.12);
+
+  --shadow-soft: 0 14px 30px rgba(15, 23, 42, 0.08);
+
+  --primary-1: #00b2e2;
+  --primary-2: #0078ff;
+
+  --page-hero-1: #00b2e2;
+  --page-hero-2: #0078ff;
+  --page-hero-3: #7a5cfd;
+
+  --auth-hero-1: #00b2e2;
+  --auth-hero-2: #0078ff;
+  --auth-hero-3: #7a5cfd;
+
+  --btn-1: #5468ff;
+  --btn-2: #7a5cfd;
+  --btn-shadow: rgba(122, 92, 253, 0.35);
+
+  --link: #4b5bb5;
+
+  /* Auth page background accents */
+  --auth-bg-spot-1: #7a5cfd;
+  --auth-bg-spot-2: #00b2e2;
+  --auth-bg-spot-3: #00c89c;
+  --auth-bg-base: linear-gradient(180deg, #eef6ff 0%, #f7f8ff 40%, #f5f8fc 100%);
+}
+
+/* Form controls on user side (high contrast on light background) */
+select {
+  background: #ffffff;
+  color: var(--text-main);
+  border-color: var(--card-border);
+}
+
+select:focus {
+  outline: none;
+  border-color: var(--primary-2);
+}
+
+select option {
+  background: #ffffff;
+  color: var(--text-main);
+}
+

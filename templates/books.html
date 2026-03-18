@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Arduino Library – Books</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}" />
+  </head>
+  <body data-page="books">
+    <div class="app-layout">
+      <!-- Sidebar (same as dashboard) -->
+      <aside class="sidebar">
+        <div class="sidebar-logo">
+          <div class="sidebar-logo-icon">A</div>
+          <div class="sidebar-logo-text">
+            <h1>Arduino Library</h1>
+            <span>Smart Management System</span>
+          </div>
+        </div>
+
+        <nav class="sidebar-nav">
+          <a href="{{url_for('dashboardAdmin_')}}" class="nav-item" data-page="dashboard">
+            <div class="nav-item-icon">🏠</div>
+            <span>Dashboard</span>
+          </a>
+          <a href="{{url_for('books_page')}}" class="nav-item" data-page="books">
+            <div class="nav-item-icon">📚</div>
+            <span>Books</span>
+          </a>
+          <a href="{{url_for('members_page')}}" class="nav-item" data-page="members">
+            <div class="nav-item-icon">👥</div>
+            <span>Members</span>
+          </a>
+          <a href="{{url_for('checkout_page')}}" class="nav-item" data-page="checkout">
+            <div class="nav-item-icon">🔁</div>
+            <span>Checkout</span>
+          </a>
+          <a href="{{url_for('logout_admin')}}" class="nav-item">
+            <div class="nav-item-icon">🚪</div>
+            <span>Logout</span>
+          </a>
+        </nav>
+
+        <div class="sidebar-status">
+          <div class="sidebar-status-header">
+            <span>Arduino Status</span>
+            <span class="status-pill">
+              <span class="status-dot"></span>
+              Active
+            </span>
+          </div>
+          <div class="sidebar-status-body">
+            <div>Connection</div>
+            <div>Active</div>
+            <div>Port</div>
+            <div>COM3</div>
+            <div>Board</div>
+            <div>UNO R3</div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main -->
+      <main class="main">
+        <header class="topbar">
+          <div></div>
+          <div class="topbar-right">
+            <span>Sat, Mar 7</span>
+            <span class="badge-pill">
+              <span class="status-dot"></span>
+              UNO Connected
+            </span>
+          </div>
+        </header>
+
+        <section class="page-header">
+          <div>
+            <h2>Books Management</h2>
+            <p>Manage your library's book collection.</p>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="card">
+            <div class="toolbar">
+              <div>
+                <h3 style="font-size: 16px; margin-bottom: 4px">Book Catalog</h3>
+                <p style="font-size: 12px; color: var(--text-muted)">
+                  Search and filter your book collection
+                </p>
+              </div>
+              <a class="btn-primary" href="{{ url_for('admin_books_create') }}">
+                <span>＋</span>
+                Add Book
+              </a>
+            </div>
+
+            <div class="toolbar">
+              <div class="search-input-wrap">
+                <span class="search-icon">🔍</span>
+                <input
+                  type="text"
+                  placeholder="Search by title, author, or ISBN..."
+                />
+              </div>
+              <select
+                style="
+                  border-radius: 999px;
+                  border: 1px solid var(--card-border);
+                  padding: 9px 14px;
+                  font-size: 13px;
+                  background: #ffffff;
+                  color: var(--text-muted);
+                "
+              >
+                <option>All Categories</option>
+                <option>Fiction</option>
+                <option>Science</option>
+                <option>Technology</option>
+                <option>Biography</option>
+                <option>Mystery</option>
+              </select>
+            </div>
+
+            <div class="table-card">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 260px">Title</th>
+                    <th>Author</th>
+                    <th>RFID UID</th>
+                    <th>ISBN</th>
+                    <th>Category</th>
+                    <th>Year</th>
+                    <th>Availability</th>
+                    <th style="width: 110px">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% if books and books|length > 0 %}
+                    {% for b in books %}
+                      <tr>
+                        <td style="font-weight: 800">{{ b.title }}</td>
+                        <td>{{ b.author }}</td>
+                        <td style="font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px">{{ b.rfid_uid }}</td>
+                        <td>{{ b.isbn or "—" }}</td>
+                        <td>{{ b.category or "—" }}</td>
+                        <td>{{ b.year_published or "—" }}</td>
+                        <td>
+                          <span class="badge-small">{{ b.available_copies }} / {{ b.total_copies }}</span>
+                        </td>
+                        <td>
+                          <div class="table-actions">
+                            <a class="icon-btn" href="{{ url_for('admin_books_edit', book_id=b.book_id) }}">✏️</a>
+                            <form method="post" action="{{ url_for('admin_books_delete', book_id=b.book_id) }}" style="display:inline">
+                              <button class="icon-btn delete" type="submit">🗑️</button>
+                            </form>
+                          </div>
+                        </td>
+                      </tr>
+                    {% endfor %}
+                  {% else %}
+                    <tr>
+                      <td colspan="8" style="color: var(--text-muted)">No books yet. Click “Add Book” to create one.</td>
+                    </tr>
+                  {% endif %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+  </body>
+</html>

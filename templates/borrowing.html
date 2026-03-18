@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Borrow Books | SmartLibrary</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/user.css') }}" />
+    <style>
+      .grid-2 {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+      }
+      @media (max-width: 960px) {
+        .grid-2 {
+          grid-template-columns: 1fr;
+        }
+      }
+      .simple-input {
+        width: 100%;
+        border-radius: 16px;
+        border: 1px solid var(--card-border);
+        padding: 12px 12px;
+        outline: none;
+        background: #f7f9ff;
+        font-size: 14px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app-layout">
+      <aside class="sidebar">
+        <div class="sidebar-logo">
+          <div class="sidebar-logo-icon">S</div>
+          <div class="sidebar-logo-text">
+            <h1>SmartLibrary</h1>
+            <span>User Portal</span>
+          </div>
+        </div>
+        <nav class="sidebar-nav">
+          <a href="{{ url_for('dashboardUser_') }}" class="nav-item">
+            <div class="nav-item-icon">👤</div>
+            <span>Profile</span>
+          </a>
+          <a href="{{ url_for('home_page') }}" class="nav-item">
+            <div class="nav-item-icon">🔎</div>
+            <span>Search Books</span>
+          </a>
+          <a href="{{ url_for('borrowing_page') }}" class="nav-item active">
+            <div class="nav-item-icon">📖</div>
+            <span>Borrow</span>
+          </a>
+          <a href="{{ url_for('logout') }}" class="nav-item">
+            <div class="nav-item-icon">🚪</div>
+            <span>Logout</span>
+          </a>
+        </nav>
+      </aside>
+
+      <main class="main">
+        <section class="page-header">
+          <div>
+            <h2>Borrow / Return</h2>
+            <p>Borrow a book and manage your returns.</p>
+          </div>
+        </section>
+
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div class="flash">{{ messages[0] }}</div>
+        {% endif %}
+        {% endwith %}
+
+        <section class="section grid-2">
+          <div class="card">
+            <div class="card-title">
+              <span>Borrow a Book</span>
+              <div class="card-title-pill">📖</div>
+            </div>
+            <form action="{{ url_for('process_borrow') }}" method="post" style="display:grid; gap: 12px">
+              <input
+                class="simple-input"
+                name="book_title"
+                placeholder="Book title"
+                required
+              />
+              <input class="simple-input" name="author" placeholder="Author" required />
+              <button class="btn-primary" type="submit">Borrow</button>
+              <div style="color: var(--text-muted); font-size: 12px">
+                Note: You can only borrow if you have no borrowed/overdue books (based on your current logic).
+              </div>
+            </form>
+          </div>
+
+          <div class="card">
+            <div class="card-title">
+              <span>Return (Admin/Staff)</span>
+              <div class="card-title-pill">🔁</div>
+            </div>
+            <form action="{{ url_for('process_return') }}" method="post" style="display:grid; gap: 12px">
+              <input
+                class="simple-input"
+                name="borrow_id"
+                placeholder="Borrow ID (from database)"
+                required
+              />
+              <button class="btn-primary" type="submit">Mark as Returned</button>
+              <div style="color: var(--text-muted); font-size: 12px">
+                This uses your existing `/process_return` route.
+              </div>
+            </form>
+          </div>
+        </section>
+      </main>
+    </div>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+  </body>
+</html>
+

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SmartLibrary | Welcome</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/user.css') }}" />
+  </head>
+  <body>
+    <div class="auth-shell">
+      <div class="auth-card" style="max-width: 720px">
+        <div class="auth-hero">
+          <div class="auth-brand">
+            <div class="auth-logo" aria-hidden="true">📚</div>
+            <div>
+              <div style="font-weight: 900; letter-spacing: -0.02em">
+                SmartLibrary
+              </div>
+              <div style="opacity: 0.9; font-size: 12px">
+                RFID-enabled Library System
+              </div>
+            </div>
+          </div>
+          <h1>Welcome Back</h1>
+          <p>Select how you want to sign in.</p>
+        </div>
+
+        <div class="auth-body">
+          <div
+            style="
+              display: grid;
+              grid-template-columns: repeat(2, minmax(0, 1fr));
+              gap: 14px;
+            "
+          >
+            <div
+              class="card"
+              style="border-radius: 22px; padding: 16px 16px 18px"
+            >
+              <div style="font-weight: 900; margin-bottom: 6px">User</div>
+              <div style="color: var(--text-muted); font-size: 13px">
+                Log in with email/password or scan your RFID card.
+              </div>
+              <div style="display: grid; gap: 10px; margin-top: 14px">
+                <a class="btn-primary" href="{{ url_for('login_page') }}"
+                  >Sign In</a
+                >
+                <a class="btn-outline" href="{{ url_for('signup_page') }}"
+                  >Create account</a
+                >
+              </div>
+            </div>
+
+            <div
+              class="card"
+              style="border-radius: 22px; padding: 16px 16px 18px"
+            >
+              <div style="font-weight: 900; margin-bottom: 6px">Admin</div>
+              <div style="color: var(--text-muted); font-size: 13px">
+                Admin portal for managing books, members, and transactions.
+              </div>
+              <div style="display: grid; gap: 10px; margin-top: 14px">
+                <a class="btn-primary" href="{{ url_for('loginAdmin_page') }}"
+                  >Sign In</a
+                >
+                <a class="btn-outline" href="{{ url_for('signupAdmin_page') }}"
+                  >Create admin</a
+                >
+              </div>
+            </div>
+          </div>
+
+          <div class="auth-footer" style="margin-top: 16px">
+            Tip: On the user login screen, scanning an RFID card will
+            automatically take you to the dashboard.
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
