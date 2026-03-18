@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Sign Up | SmartLibrary</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}" />
+  </head>
+  <body>
+    <header class="auth-topbar">
+      <div class="auth-topbar-inner">
+        <a class="auth-topbar-brand" href="{{ url_for('landing_page') }}">
+          <span class="auth-topbar-logo" aria-hidden="true">🛡️</span>
+          SmartLibrary
+        </a>
+
+        <nav style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap; justify-content: flex-end">
+          <div class="segmented" aria-label="Account type">
+            <a href="{{ url_for('login_page') }}">User</a>
+            <a class="active" href="{{ url_for('loginAdmin_page') }}">Admin</a>
+          </div>
+          <div class="segmented" aria-label="Auth mode">
+            <a href="{{ url_for('loginAdmin_page') }}">Sign in</a>
+            <a class="active" href="{{ url_for('signupAdmin_page') }}">Create account</a>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <div class="auth-shell">
+      <div class="auth-card">
+        <div class="auth-hero">
+          <div class="auth-brand">
+            <div class="auth-logo" aria-hidden="true">🛡️</div>
+            <div>
+              <div style="font-weight: 900; letter-spacing: -0.02em">
+                SmartLibrary
+              </div>
+              <div style="opacity: 0.9; font-size: 12px">Admin Portal</div>
+            </div>
+          </div>
+          <h1>Create Admin</h1>
+          <p>Use your access code to register</p>
+        </div>
+
+        <div class="auth-body">
+          {% if error %}
+          <div class="flash">{{ error }}</div>
+          {% endif %}
+
+          <div class="auth-title">Sign Up</div>
+          <div class="auth-subtitle">Enter details to create an admin account</div>
+
+          <form action="{{ url_for('signupAdmin_process') }}" method="post">
+            <div class="field">
+              <label for="username">Name</label>
+              <div class="input-wrap">
+                <span class="input-icon">🧑</span>
+                <input
+                  id="username"
+                  name="username"
+                  type="text"
+                  placeholder="Full name"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="email">Email</label>
+              <div class="input-wrap">
+                <span class="input-icon">✉️</span>
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  placeholder="Admin email"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="password">Password</label>
+              <div class="input-wrap">
+                <span class="input-icon">🔒</span>
+                <input
+                  id="password"
+                  name="password"
+                  type="password"
+                  placeholder="Create a password"
+                  required
+                />
+                <button
+                  class="pw-toggle"
+                  type="button"
+                  aria-label="Show password"
+                  aria-pressed="false"
+                  data-toggle-password="password"
+                >
+                  👁️
+                </button>
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="confirm_password">Confirm Password</label>
+              <div class="input-wrap">
+                <span class="input-icon">🔒</span>
+                <input
+                  id="confirm_password"
+                  name="confirm_password"
+                  type="password"
+                  placeholder="Confirm your password"
+                  required
+                />
+                <button
+                  class="pw-toggle"
+                  type="button"
+                  aria-label="Show password"
+                  aria-pressed="false"
+                  data-toggle-password="confirm_password"
+                >
+                  👁️
+                </button>
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="access_code">Admin Access Code</label>
+              <div class="input-wrap">
+                <span class="input-icon">🔑</span>
+                <input
+                  id="access_code"
+                  name="access_code"
+                  type="password"
+                  placeholder="Enter access code"
+                  required
+                />
+                <button
+                  class="pw-toggle"
+                  type="button"
+                  aria-label="Show access code"
+                  aria-pressed="false"
+                  data-toggle-password="access_code"
+                >
+                  👁️
+                </button>
+              </div>
+            </div>
+
+            <button class="btn-submit" type="submit">Create Admin</button>
+
+            <div class="auth-footer">
+              Already have an admin account?
+              <a class="auth-link" href="{{ url_for('loginAdmin_page') }}"
+                >Sign in</a
+              >
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+  </body>
+</html>
+

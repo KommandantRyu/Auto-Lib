@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Arduino Library – Checkout</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}" />
+  </head>
+  <body data-page="checkout">
+    <div class="app-layout">
+      <!-- Sidebar -->
+      <aside class="sidebar">
+        <div class="sidebar-logo">
+          <div class="sidebar-logo-icon">A</div>
+          <div class="sidebar-logo-text">
+            <h1>Arduino Library</h1>
+            <span>Smart Management System</span>
+          </div>
+        </div>
+
+
+        <nav class="sidebar-nav">
+          <a href="{{ url_for('dashboardAdmin_') }}" class="nav-item" data-page="dashboard">
+            <div class="nav-item-icon">🏠</div>
+            <span>Dashboard</span>
+          </a>
+          <a href="{{url_for('books_page')}}" class="nav-item" data-page="books">
+            <div class="nav-item-icon">📚</div>
+            <span>Books</span>
+          </a>
+          <a href="{{url_for('members_page')}}" class="nav-item" data-page="members">
+            <div class="nav-item-icon">👥</div>
+            <span>Members</span>
+          </a>
+          <a href="{{url_for('checkout_page')}}" class="nav-item" data-page="checkout">
+            <div class="nav-item-icon">🔁</div>
+            <span>Checkout</span>
+          </a>
+          <a href="{{url_for('logout_admin')}}" class="nav-item">
+            <div class="nav-item-icon">🚪</div>
+            <span>Logout</span>
+          </a>
+        </nav>
+
+
+        <div class="sidebar-status">
+          <div class="sidebar-status-header">
+            <span>Arduino Status</span>
+            <span class="status-pill">
+              <span class="status-dot"></span>
+              Active
+            </span>
+          </div>
+          <div class="sidebar-status-body">
+            <div>Connection</div>
+            <div>Active</div>
+            <div>Port</div>
+            <div>COM3</div>
+            <div>Board</div>
+            <div>UNO R3</div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main -->
+      <main class="main">
+        <header class="topbar">
+          <div></div>
+          <div class="topbar-right">
+            <span>Sat, Mar 7</span>
+            <span class="badge-pill">
+              <span class="status-dot"></span>
+              UNO Connected
+            </span>
+          </div>
+        </header>
+
+        <section class="page-header">
+          <div>
+            <h2>Checkout &amp; Returns</h2>
+            <p>Manage book checkouts and returns.</p>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="cards-row">
+            <div class="card">
+              <div class="card-title">
+                <span>Currently Checked Out</span>
+              </div>
+              <div class="card-value-row">
+                <div class="card-value">{{ currently_checked_out or 0 }}</div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-title">
+                <span>Overdue Books</span>
+              </div>
+              <div class="card-value-row">
+                <div class="card-value">{{ overdue_books or 0 }}</div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-title">
+                <span>Returned This Month</span>
+              </div>
+              <div class="card-value-row">
+                <div class="card-value">{{ returned_last_30 or 0 }}</div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-title">
+                <span>&nbsp;</span>
+              </div>
+              <div class="card-value-row">
+                <span style="color: var(--text-muted); font-size: 12px; font-weight: 800">Scan a book card to checkout</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="toolbar" style="align-items: flex-start">
+              <div>
+                <h3 style="font-size: 16px; margin-bottom: 4px">New Checkout (RFID)</h3>
+                <p style="font-size: 12px; color: var(--text-muted)">
+                  Select a member, then scan a book RFID card (ex: <strong>D5B93B03</strong>).
+                </p>
+              </div>
+            </div>
+
+            <form method="post" action="{{ url_for('admin_checkout_create') }}" style="display: grid; gap: 12px; max-width: 720px">
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px">
+                <div class="field" style="margin-bottom: 0">
+                  <label for="user_id">Member</label>
+                  <div class="input-wrap">
+                    <span class="input-icon">👤</span>
+                    <select
+                      id="user_id"
+                      name="user_id"
+                      style="width:100%; border-radius:16px; border: 1px solid var(--card-border); padding: 12px 14px 12px 44px; font-size: 14px; background: transparent; color: var(--text-main); outline: none"
+                      required
+                    >
+                      <option value="">Select member...</option>
+                      {% for u in users %}
+                        <option value="{{ u.user_id }}">{{ u.name }} ({{ u.email }})</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+
+                <div class="field" style="margin-bottom: 0">
+                  <label for="book_uid">Book RFID UID</label>
+                  <div class="input-wrap">
+                    <span class="input-icon">🏷️</span>
+                    <input id="book_uid" name="book_uid" placeholder="Scan book card..." required />
+                  </div>
+                </div>
+              </div>
+
+              <div class="card" style="padding: 14px 16px; background: rgba(255,255,255,0.04)">
+                <div style="display:flex; justify-content:space-between; gap: 10px; align-items:center; flex-wrap: wrap">
+                  <div>
+                    <div style="font-weight: 900" id="bookPreviewTitle">No book scanned</div>
+                    <div style="font-size: 12px; color: var(--text-muted)" id="bookPreviewMeta">Scan a card to load book details.</div>
+                  </div>
+                  <button class="btn-primary" type="submit">
+                    <span>＋</span>
+                    Create Checkout
+                  </button>
+                </div>
+              </div>
+            </form>
+
+            <div class="toolbar">
+              <div>
+                <h3 style="font-size: 16px; margin-bottom: 4px">
+                  Transaction History
+                </h3>
+                <p style="font-size: 12px; color: var(--text-muted)">
+                  View and manage book checkouts and returns
+                </p>
+              </div>
+              <div class="tabs">
+                <button
+                  class="tab active"
+                  data-checkout-tab="active"
+                >
+                  Active Checkouts ({{ active|length if active else 0 }})
+                </button>
+                <button class="tab" data-checkout-tab="return">
+                  Return History ({{ returned|length if returned else 0 }})
+                </button>
+              </div>
+            </div>
+
+            <div class="toolbar">
+              <div class="search-input-wrap">
+                <span class="search-icon">🔍</span>
+                <input
+                  type="text"
+                  placeholder="Search by book title, member name, or transaction ID..."
+                />
+              </div>
+            </div>
+
+            <!-- Active checkouts table -->
+            <div
+              class="table-card"
+              data-checkout-table="active"
+            >
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Transaction ID</th>
+                    <th>Book Title</th>
+                    <th>Member</th>
+                    <th>Checkout Date</th>
+                    <th>Due Date</th>
+                    <th>Status</th>
+                    <th style="width: 150px">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% if active and active|length > 0 %}
+                    {% for t in active %}
+                      <tr>
+                        <td>{{ t.id }}</td>
+                        <td style="font-weight: 800">{{ t.book_title }}</td>
+                        <td>{{ t.user_name or ("User #" ~ t.user_id) }}</td>
+                        <td>{{ t.borrow_date }}</td>
+                        <td>{{ t.due_date or "—" }}</td>
+                        <td>
+                          {% if t.status == "Overdue" %}
+                            <span class="checkout-status overdue">Overdue</span>
+                          {% else %}
+                            <span class="checkout-status checked">Checked Out</span>
+                          {% endif %}
+                        </td>
+                        <td>
+                          <form method="post" action="{{ url_for('admin_checkout_return') }}">
+                            <input type="hidden" name="borrow_id" value="{{ t.id }}" />
+                            <button class="btn-outline" type="submit">✔ Mark as Returned</button>
+                          </form>
+                        </td>
+                      </tr>
+                    {% endfor %}
+                  {% else %}
+                    <tr>
+                      <td colspan="7" style="color: var(--text-muted)">No active checkouts.</td>
+                    </tr>
+                  {% endif %}
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Return history table -->
+            <div
+              class="table-card"
+              data-checkout-table="return"
+              style="display: none"
+            >
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Transaction ID</th>
+                    <th>Book Title</th>
+                    <th>Member</th>
+                    <th>Checkout Date</th>
+                    <th>Return Date</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% if returned and returned|length > 0 %}
+                    {% for t in returned %}
+                      <tr>
+                        <td>{{ t.id }}</td>
+                        <td style="font-weight: 800">{{ t.book_title }}</td>
+                        <td>{{ t.user_name or ("User #" ~ t.user_id) }}</td>
+                        <td>{{ t.borrow_date }}</td>
+                        <td>{{ t.returned_at or "—" }}</td>
+                        <td><span class="checkout-status checked">Returned</span></td>
+                      </tr>
+                    {% endfor %}
+                  {% else %}
+                    <tr>
+                      <td colspan="6" style="color: var(--text-muted)">No returns yet.</td>
+                    </tr>
+                  {% endif %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+    <script>
+      // RFID -> book preview for checkout (admin)
+      (function () {
+        const bookUidInput = document.getElementById("book_uid");
+        const titleEl = document.getElementById("bookPreviewTitle");
+        const metaEl = document.getElementById("bookPreviewMeta");
+
+        if (!bookUidInput || !titleEl || !metaEl) return;
+
+        let lastSeq = 0;
+
+        async function loadBook(uid) {
+          const res = await fetch("{{ url_for('api_book_by_uid') }}?uid=" + encodeURIComponent(uid), { cache: "no-store" });
+          const data = await res.json();
+          if (!data.found) {
+            titleEl.textContent = "Unknown book RFID";
+            metaEl.textContent = "UID: " + uid;
+            return;
+          }
+          const b = data.book;
+          titleEl.textContent = b.title;
+          metaEl.textContent = (b.author || "—") + " • Available: " + b.available_copies + "/" + b.total_copies;
+          bookUidInput.value = b.rfid_uid;
+        }
+
+        async function pollRfid() {
+          try {
+            const res = await fetch("{{ url_for('rfid') }}", { cache: "no-store" });
+            const data = await res.json();
+            if (!data.seq || data.seq === lastSeq) return;
+            lastSeq = data.seq;
+            if (!data.uid || data.is_blue_key) return;
+            await loadBook(String(data.uid).toUpperCase());
+          } catch (e) {}
+        }
+
+        setInterval(() => {
+          if (document.visibilityState !== "visible") return;
+          pollRfid();
+        }, 1500);
+
+        bookUidInput.addEventListener("change", () => {
+          const uid = (bookUidInput.value || "").trim().toUpperCase();
+          if (uid) loadBook(uid);
+        });
+      })();
+    </script>
+  </body>
+</html>
