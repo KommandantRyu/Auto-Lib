@@ -4,36 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Search Books | SmartLibrary</title>
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='css/style.css') }}"
-    />
-    <style>
-      .top-search {
-        display: flex;
-        gap: 10px;
-        align-items: center;
-      }
-      .top-search input {
-        flex: 1;
-        border-radius: 999px;
-        border: 1px solid var(--card-border);
-        padding: 10px 14px;
-        outline: none;
-        background: #ffffff;
-      }
-      .pill {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        padding: 7px 12px;
-        border-radius: 999px;
-        border: 1px solid var(--card-border);
-        background: #fff;
-        font-size: 12px;
-        font-weight: 800;
-      }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/user.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home_extra.css') }}" />
   </head>
   <body>
     <div class="app-layout">
@@ -46,19 +19,19 @@
           </div>
         </div>
         <nav class="sidebar-nav">
-          <a href="{{ url_for('dashboardUser_') }}" class="nav-item">
+          <a href="{{ url_for('user.dashboardUser_') }}" class="nav-item">
             <div class="nav-item-icon">👤</div>
             <span>Profile</span>
           </a>
-          <a href="{{ url_for('home_page') }}" class="nav-item active">
+          <a href="{{ url_for('auth.home_page') }}" class="nav-item active">
             <div class="nav-item-icon">🔎</div>
             <span>Search Books</span>
           </a>
-          <a href="{{ url_for('borrowing_page') }}" class="nav-item">
+          <a href="{{ url_for('user.borrowing_page') }}" class="nav-item">
             <div class="nav-item-icon">📖</div>
             <span>Borrow</span>
           </a>
-          <a href="{{ url_for('logout') }}" class="nav-item">
+          <a href="{{ url_for('auth.logout') }}" class="nav-item">
             <div class="nav-item-icon">🚪</div>
             <span>Logout</span>
           </a>
@@ -91,7 +64,7 @@
 
         <section class="section">
           <div class="card">
-            <form class="top-search" action="{{ url_for('book_search') }}" method="get">
+            <form class="top-search" action="{{ url_for('books.book_search') }}" method="get">
               <input
                 name="q"
                 value="{{ query or '' }}"
@@ -106,7 +79,7 @@
               <div>
                 <h3 style="font-size: 16px; margin-bottom: 4px">Results</h3>
                 <p style="font-size: 12px; color: var(--text-muted)">
-                  Results are pulled from OpenLibrary.
+                  Results are pulled from your library catalog and OpenLibrary.
                 </p>
               </div>
               <span class="pill">Total: {{ (books|length) if books else 0 }}</span>
@@ -138,39 +111,7 @@
             {% endif %}
           </div>
 
-          {% if users %}
-          <div class="card">
-            <div class="toolbar">
-              <div>
-                <h3 style="font-size: 16px; margin-bottom: 4px">Users</h3>
-                <p style="font-size: 12px; color: var(--text-muted)">
-                  From your MySQL `user` table.
-                </p>
-              </div>
-              <span class="pill">Count: {{ users|length }}</span>
-            </div>
-            <div class="table-card">
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {% for u in users %}
-                  <tr>
-                    <td>{{ u.user_id }}</td>
-                    <td style="font-weight: 800">{{ u.name }}</td>
-                    <td style="color: var(--text-muted)">{{ u.email }}</td>
-                  </tr>
-                  {% endfor %}
-                </tbody>
-              </table>
-            </div>
-          </div>
-          {% endif %}
+          
         </section>
       </main>
     </div>

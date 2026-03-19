@@ -1,0 +1,27 @@
+.top-search {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.top-search input {
+  flex: 1;
+  border-radius: 999px;
+  border: 1px solid var(--card-border);
+  padding: 10px 14px;
+  outline: none;
+  background: #ffffff;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--card-border);
+  background: #fff;
+  font-size: 12px;
+  font-weight: 800;
+}
+
