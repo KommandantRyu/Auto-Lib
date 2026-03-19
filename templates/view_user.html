@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>View User | SmartLibrary Admin</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}" />
+  </head>
+  <body data-page="members">
+    <div class="app-layout">
+      <aside class="sidebar">
+        <div class="sidebar-logo">
+          <div class="sidebar-logo-icon">A</div>
+          <div class="sidebar-logo-text">
+            <h1>SmartLibrary</h1>
+            <span>Admin Portal</span>
+          </div>
+        </div>
+
+        <nav class="sidebar-nav">
+          <a href="{{ url_for('admin.dashboardAdmin_') }}" class="nav-item" data-page="dashboard">
+            <div class="nav-item-icon">🏠</div>
+            <span>Dashboard</span>
+          </a>
+          <a href="{{ url_for('admin.members_page') }}" class="nav-item active" data-page="members">
+            <div class="nav-item-icon">👥</div>
+            <span>Members</span>
+          </a>
+          <a href="{{ url_for('auth.logout_admin') }}" class="nav-item">
+            <div class="nav-item-icon">🚪</div>
+            <span>Logout</span>
+          </a>
+        </nav>
+      </aside>
+
+      <main class="main">
+        <section class="page-header">
+          <div>
+            <h2>User Details</h2>
+            <p>Read-only view of a member account.</p>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="card">
+            <div class="card-title">
+              <span>Account</span>
+              <div class="card-title-pill">👤</div>
+            </div>
+
+            {% if user %}
+            <div style="display: grid; gap: 10px; font-size: 14px">
+              <div><strong>ID:</strong> {{ user.user_id }}</div>
+              <div><strong>Name:</strong> {{ user.name }}</div>
+              <div><strong>Email:</strong> {{ user.email }}</div>
+              <div><strong>RFID UID:</strong> {{ user.rfid_uid or "—" }}</div>
+            </div>
+            {% else %}
+            <div style="color: var(--text-muted)">User not found.</div>
+            {% endif %}
+
+            <div style="height: 14px"></div>
+            <a class="btn-outline" href="{{ url_for('admin.dashboardAdmin_') }}">Back to dashboard</a>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+  </body>
+</html>
+
