@@ -4,10 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Contact Admin | SmartLibrary</title>
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='css/style.css') }}"
-    />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/user.css') }}" />
   </head>
   <body>
     <div class="auth-shell">
@@ -42,13 +40,13 @@
           <div style="height: 12px"></div>
 
           <div style="display: grid; gap: 10px">
-            <a class="btn-primary" href="{{ url_for('login_page') }}"
+            <a class="btn-primary" href="{{ url_for('auth.login_page') }}"
               >Back to User Login</a
             >
-            <a class="btn-outline" href="{{ url_for('loginAdmin_page') }}"
+            <a class="btn-outline" href="{{ url_for('auth.loginAdmin_page') }}"
               >Back to Admin Login</a
             >
-            <a class="btn-outline" href="{{ url_for('landing_page') }}">Home</a>
+            <a class="btn-outline" href="{{ url_for('auth.landing_page') }}">Home</a>
           </div>
         </div>
       </div>

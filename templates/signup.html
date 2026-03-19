@@ -4,12 +4,30 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>User Sign Up | SmartLibrary</title>
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='css/style.css') }}"
-    />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/user.css') }}" />
   </head>
   <body>
+    <header class="auth-topbar">
+      <div class="auth-topbar-inner">
+        <a class="auth-topbar-brand" href="{{ url_for('auth.landing_page') }}">
+          <span class="auth-topbar-logo" aria-hidden="true">📚</span>
+          SmartLibrary
+        </a>
+
+        <nav style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap; justify-content: flex-end">
+          <div class="segmented" aria-label="Account type">
+            <a class="active" href="{{ url_for('auth.login_page') }}">User</a>
+            <a href="{{ url_for('auth.loginAdmin_page') }}">Admin</a>
+          </div>
+          <div class="segmented" aria-label="Auth mode">
+            <a href="{{ url_for('auth.login_page') }}">Sign in</a>
+            <a class="active" href="{{ url_for('auth.signup_page') }}">Create account</a>
+          </div>
+        </nav>
+      </div>
+    </header>
+
     <div class="auth-shell">
       <div class="auth-card">
         <div class="auth-hero">
@@ -42,7 +60,7 @@
           <div class="auth-title">Register</div>
           <div class="auth-subtitle">Fill in the details below</div>
 
-          <form action="{{ url_for('signup_process') }}" method="post">
+          <form action="{{ url_for('auth.signup_process') }}" method="post">
             <div class="field">
               <label for="username">Name</label>
               <div class="input-wrap">
@@ -121,7 +139,7 @@
 
             <div class="auth-footer">
               Already have an account?
-              <a class="auth-link" href="{{ url_for('login_page') }}">Log In</a>
+              <a class="auth-link" href="{{ url_for('auth.login_page') }}">Log In</a>
             </div>
           </form>
         </div>

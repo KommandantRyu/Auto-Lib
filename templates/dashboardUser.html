@@ -4,10 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>User Dashboard | SmartLibrary</title>
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='css/style.css') }}"
-    />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/user.css') }}" />
     <style>
       /* small page-specific tweaks to match screenshot */
       .user-header {
@@ -125,19 +123,19 @@
         </div>
 
         <nav class="sidebar-nav">
-          <a href="{{ url_for('dashboardUser_') }}" class="nav-item" data-page="user-dashboard">
+          <a href="{{ url_for('user.dashboardUser_') }}" class="nav-item" data-page="user-dashboard">
             <div class="nav-item-icon">👤</div>
             <span>Profile</span>
           </a>
-          <a href="{{ url_for('home_page') }}" class="nav-item" data-page="home">
+          <a href="{{ url_for('auth.home_page') }}" class="nav-item" data-page="home">
             <div class="nav-item-icon">🔎</div>
             <span>Search Books</span>
           </a>
-          <a href="{{ url_for('borrowing_page') }}" class="nav-item" data-page="borrow">
+          <a href="{{ url_for('user.borrowing_page') }}" class="nav-item" data-page="borrow">
             <div class="nav-item-icon">📖</div>
             <span>Borrow</span>
           </a>
-          <a href="{{ url_for('logout') }}" class="nav-item">
+          <a href="{{ url_for('auth.logout') }}" class="nav-item">
             <div class="nav-item-icon">🚪</div>
             <span>Logout</span>
           </a>

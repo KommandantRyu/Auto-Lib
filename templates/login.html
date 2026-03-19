@@ -4,12 +4,30 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>User Sign In | SmartLibrary</title>
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='css/style.css') }}"
-    />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/user.css') }}" />
   </head>
   <body>
+    <header class="auth-topbar">
+      <div class="auth-topbar-inner">
+        <a class="auth-topbar-brand" href="{{ url_for('auth.landing_page') }}">
+          <span class="auth-topbar-logo" aria-hidden="true">📚</span>
+          SmartLibrary
+        </a>
+
+        <nav style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap; justify-content: flex-end">
+          <div class="segmented" aria-label="Account type">
+            <a class="active" href="{{ url_for('auth.login_page') }}">User</a>
+            <a href="{{ url_for('auth.loginAdmin_page') }}">Admin</a>
+          </div>
+          <div class="segmented" aria-label="Auth mode">
+            <a class="active" href="{{ url_for('auth.login_page') }}">Sign in</a>
+            <a href="{{ url_for('auth.signup_page') }}">Create account</a>
+          </div>
+        </nav>
+      </div>
+    </header>
+
     <div class="auth-shell">
       <div class="auth-card">
         <div class="auth-hero">
@@ -44,7 +62,7 @@
           <div class="auth-title">Sign In</div>
           <div class="auth-subtitle">Enter your credentials to continue</div>
 
-          <form action="{{ url_for('login_process') }}" method="post">
+          <form action="{{ url_for('auth.login_process') }}" method="post">
             <div class="field">
               <label for="email">Login ID</label>
               <div class="input-wrap">
@@ -82,30 +100,29 @@
             </div>
 
             <div class="auth-row">
-              <a class="auth-link" href="{{ url_for('forgot_password') }}">Forgot Password?</a>
-              <a class="auth-link" href="{{ url_for('landing_page') }}">Home</a>
+              <a class="auth-link" href="{{ url_for('auth.forgot_password') }}">Forgot Password?</a>
+              <a class="auth-link" href="{{ url_for('auth.landing_page') }}">Home</a>
             </div>
 
             <button type="submit" class="btn-submit">Sign In</button>
 
             <div class="divider">or</div>
 
-            <button
-              type="button"
+            <a
               class="btn-google"
-              onclick="window.location.href='{{ url_for('contact_admin') }}'"
+              href="{{ url_for('auth.contact_admin') }}"
               aria-label="Sign in with Google (demo)"
             >
               <span style="font-weight: 900; color: #db4437">G</span>
               Sign in with Google
-            </button>
+            </a>
 
             <div class="auth-footer">
               Don’t have an account?
-              <a class="auth-link" href="{{ url_for('signup_page') }}">Sign Up</a>
+              <a class="auth-link" href="{{ url_for('auth.signup_page') }}">Sign Up</a>
               <div style="margin-top: 8px">
                 Need help?
-                <a class="auth-link" href="{{ url_for('contact_admin') }}">Contact Admin</a>
+                <a class="auth-link" href="{{ url_for('auth.contact_admin') }}">Contact Admin</a>
               </div>
             </div>
           </form>
@@ -118,25 +135,39 @@
     <script>
       // Poll the backend for RFID scans; trigger login automatically
       (function () {
-        let lastUid = null;
+        const storageKey = "smartlibrary:last_rfid_seq";
+        let lastSeq = Number(sessionStorage.getItem(storageKey) || "0");
 
         async function checkRfid() {
           try {
-            const res = await fetch("{{ url_for('rfid') }}", { cache: "no-store" });
+            const res = await fetch("{{ url_for('rfid.rfid') }}", { cache: "no-store" });
             const data = await res.json();
 
-            if (!data.uid || data.uid === lastUid) return;
+            if (!data.seq || data.seq === lastSeq) return;
 
-            lastUid = data.uid;
-            // Automatically go to RFID login route
-            window.location.href = "{{ url_for('rfid_login') }}";
+            lastSeq = data.seq;
+            sessionStorage.setItem(storageKey, String(lastSeq));
+            // Blue key goes straight to admin dashboard
+            if (data.is_blue_key) {
+              window.location.href = "{{ url_for('rfid.rfid_admin_login') }}";
+              return;
+            }
+
+            // Normal RFID login
+            window.location.href = "{{ url_for('rfid.rfid_login') }}";
           } catch (e) {
             console.error("RFID poll error:", e);
           }
         }
 
         // Poll every 1.5 seconds
-        setInterval(checkRfid, 1500);
+        const t = setInterval(() => {
+          if (document.visibilityState !== "visible") return;
+          checkRfid().catch(() => {});
+        }, 1500);
+
+        // Stop polling if we start navigating away
+        window.addEventListener("beforeunload", () => clearInterval(t));
       })();
     </script>
   </body>
