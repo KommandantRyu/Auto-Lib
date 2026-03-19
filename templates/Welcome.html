@@ -4,10 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SmartLibrary | Welcome</title>
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='css/style.css') }}"
-    />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/user.css') }}" />
   </head>
   <body>
     <div class="auth-shell">
@@ -45,10 +43,10 @@
                 Log in with email/password or scan your RFID card.
               </div>
               <div style="display: grid; gap: 10px; margin-top: 14px">
-                <a class="btn-primary" href="{{ url_for('login_page') }}"
+                <a class="btn-primary" href="{{ url_for('auth.login_page') }}"
                   >Sign In</a
                 >
-                <a class="btn-outline" href="{{ url_for('signup_page') }}"
+                <a class="btn-outline" href="{{ url_for('auth.signup_page') }}"
                   >Create account</a
                 >
               </div>
@@ -63,10 +61,10 @@
                 Admin portal for managing books, members, and transactions.
               </div>
               <div style="display: grid; gap: 10px; margin-top: 14px">
-                <a class="btn-primary" href="{{ url_for('loginAdmin_page') }}"
+                <a class="btn-primary" href="{{ url_for('auth.loginAdmin_page') }}"
                   >Sign In</a
                 >
-                <a class="btn-outline" href="{{ url_for('signupAdmin_page') }}"
+                <a class="btn-outline" href="{{ url_for('auth.signupAdmin_page') }}"
                   >Create admin</a
                 >
               </div>

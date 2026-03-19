@@ -3,7 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <title>Arduino Library – Books</title>
-    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}" />
   </head>
   <body data-page="books">
     <div class="app-layout">
@@ -88,10 +89,10 @@
                   Search and filter your book collection
                 </p>
               </div>
-              <button class="btn-primary">
+              <a class="btn-primary" href="{{ url_for('admin_books_create') }}">
                 <span>＋</span>
                 Add Book
-              </button>
+              </a>
             </div>
 
             <div class="toolbar">
@@ -125,8 +126,9 @@
               <table class="table">
                 <thead>
                   <tr>
-                    <th style="width: 220px">Cover</th>
+                    <th style="width: 260px">Title</th>
                     <th>Author</th>
+                    <th>RFID UID</th>
                     <th>ISBN</th>
                     <th>Category</th>
                     <th>Year</th>
@@ -135,113 +137,33 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>
-                      <div class="table-avatar">
-                        <img
-                          src="https://images.pexels.com/photos/46274/pexels-photo-46274.jpeg?auto=compress&cs=tinysrgb&w=400"
-                          alt="The Great Gatsby"
-                        />
-                        <div>
-                          <div style="font-weight: 600; font-size: 13px">
-                            The Great Gatsby
+                  {% if books and books|length > 0 %}
+                    {% for b in books %}
+                      <tr>
+                        <td style="font-weight: 800">{{ b.title }}</td>
+                        <td>{{ b.author }}</td>
+                        <td style="font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px">{{ b.rfid_uid }}</td>
+                        <td>{{ b.isbn or "—" }}</td>
+                        <td>{{ b.category or "—" }}</td>
+                        <td>{{ b.year_published or "—" }}</td>
+                        <td>
+                          <span class="badge-small">{{ b.available_copies }} / {{ b.total_copies }}</span>
+                        </td>
+                        <td>
+                          <div class="table-actions">
+                            <a class="icon-btn" href="{{ url_for('admin_books_edit', book_id=b.book_id) }}">✏️</a>
+                            <form method="post" action="{{ url_for('admin_books_delete', book_id=b.book_id) }}" style="display:inline">
+                              <button class="icon-btn delete" type="submit">🗑️</button>
+                            </form>
                           </div>
-                        </div>
-                      </div>
-                    </td>
-                    <td>F. Scott Fitzgerald</td>
-                    <td>978-0-7432-7356-5</td>
-                    <td>Fiction</td>
-                    <td>1925</td>
-                    <td><span class="badge-small">3 / 5</span></td>
-                    <td>
-                      <div class="table-actions">
-                        <button class="icon-btn">✏️</button>
-                        <button class="icon-btn delete">🗑️</button>
-                      </div>
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td>
-                      <div class="table-avatar">
-                        <img
-                          src="https://images.pexels.com/photos/256541/pexels-photo-256541.jpeg?auto=compress&cs=tinysrgb&w=400"
-                          alt="A Brief History of Time"
-                        />
-                        <div>
-                          <div style="font-weight: 600; font-size: 13px">
-                            A Brief History of Time
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                    <td>Stephen Hawking</td>
-                    <td>978-0-553-10953-5</td>
-                    <td>Science</td>
-                    <td>1988</td>
-                    <td><span class="badge-small">2 / 3</span></td>
-                    <td>
-                      <div class="table-actions">
-                        <button class="icon-btn">✏️</button>
-                        <button class="icon-btn delete">🗑️</button>
-                      </div>
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td>
-                      <div class="table-avatar">
-                        <img
-                          src="https://images.pexels.com/photos/46274/pexels-photo-46274.jpeg?auto=compress&cs=tinysrgb&w=400"
-                          alt="The Da Vinci Code"
-                        />
-                        <div>
-                          <div style="font-weight: 600; font-size: 13px">
-                            The Da Vinci Code
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                    <td>Dan Brown</td>
-                    <td>978-0-385-50420-8</td>
-                    <td>Mystery</td>
-                    <td>2003</td>
-                    <td><span class="badge-small">4 / 7</span></td>
-                    <td>
-                      <div class="table-actions">
-                        <button class="icon-btn">✏️</button>
-                        <button class="icon-btn delete">🗑️</button>
-                      </div>
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td>
-                      <div class="table-avatar">
-                        <img
-                          src="https://images.pexels.com/photos/46274/pexels-photo-46274.jpeg?auto=compress&cs=tinysrgb&w=400"
-                          alt="Steve Jobs"
-                        />
-                        <div>
-                          <div style="font-weight: 600; font-size: 13px">
-                            Steve Jobs
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                    <td>Walter Isaacson</td>
-                    <td>978-1-4516-4853-9</td>
-                    <td>Biography</td>
-                    <td>2011</td>
-                    <td><span class="badge-small">4 / 4</span></td>
-                    <td>
-                      <div class="table-actions">
-                        <button class="icon-btn">✏️</button>
-                        <button class="icon-btn delete">🗑️</button>
-                      </div>
-                    </td>
-                  </tr>
+                        </td>
+                      </tr>
+                    {% endfor %}
+                  {% else %}
+                    <tr>
+                      <td colspan="8" style="color: var(--text-muted)">No books yet. Click “Add Book” to create one.</td>
+                    </tr>
+                  {% endif %}
                 </tbody>
               </table>
             </div>

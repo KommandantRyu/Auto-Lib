@@ -1,0 +1,102 @@
+/* Admin theme (distinct look from users) */
+:root {
+  --sidebar-bg: #111827;
+  --sidebar-bg-dark: #0b1220;
+  --sidebar-active: #ffffff;
+  --sidebar-text: #e5e7eb;
+  --sidebar-icon-bg: rgba(255, 255, 255, 0.12);
+
+  --main-bg: #0b1220;
+  --card-bg: #0f172a;
+  --card-border: rgba(255, 255, 255, 0.08);
+  --text-main: #e5e7eb;
+  --text-muted: rgba(229, 231, 235, 0.72);
+
+  --accent: #22c55e;
+  --accent-soft: rgba(34, 197, 94, 0.16);
+
+  --shadow-soft: 0 16px 36px rgba(0, 0, 0, 0.35);
+
+  --primary-1: #f97316;
+  --primary-2: #ef4444;
+
+  --page-hero-1: #f97316;
+  --page-hero-2: #ef4444;
+  --page-hero-3: #a855f7;
+
+  --auth-hero-1: #111827;
+  --auth-hero-2: #0b1220;
+  --auth-hero-3: #1f2937;
+
+  --btn-1: #f97316;
+  --btn-2: #ef4444;
+  --btn-shadow: rgba(239, 68, 68, 0.25);
+
+  --link: #93c5fd;
+
+  /* Auth page background accents (dark glass look) */
+  --auth-bg-spot-1: #a855f7;
+  --auth-bg-spot-2: #ef4444;
+  --auth-bg-spot-3: #22c55e;
+  --auth-bg-base: linear-gradient(180deg, #050914 0%, #0b1220 55%, #070b16 100%);
+}
+
+/* Better contrast for admin tables */
+.table tr:hover td {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.search-input-wrap input,
+.input-wrap input {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-main);
+}
+
+.search-input-wrap input::placeholder,
+.input-wrap input::placeholder {
+  color: rgba(229, 231, 235, 0.55);
+}
+
+.page-header-settings {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* High-contrast selects and recent-activity blocks on dark admin theme */
+select {
+  background: rgba(15, 23, 42, 0.9);
+  color: var(--text-main);
+}
+
+select:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+select option {
+  background: #020617;
+  color: var(--text-main);
+}
+
+/* Recent activity summary inside chart-placeholder */
+.chart-placeholder {
+  color: var(--text-main);
+}
+
+.chart-placeholder div span {
+  color: inherit;
+}
+
+/* Auth topbar fallbacks (when color-mix isn't supported) */
+.auth-topbar {
+  background: rgba(11, 18, 32, 0.72);
+  border-bottom-color: rgba(255, 255, 255, 0.08);
+}
+
+.segmented {
+  background: rgba(15, 23, 42, 0.66);
+}
+
+.segmented a.active {
+  background: rgba(255, 255, 255, 0.1);
+}
+

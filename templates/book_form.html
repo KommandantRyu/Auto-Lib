@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>{% if mode == "edit" %}Edit Book{% else %}Add Book{% endif %} – Admin</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}" />
+  </head>
+  <body data-page="books">
+    <div class="app-layout">
+      <aside class="sidebar">
+        <div class="sidebar-logo">
+          <div class="sidebar-logo-icon">A</div>
+          <div class="sidebar-logo-text">
+            <h1>Arduino Library</h1>
+            <span>Smart Management System</span>
+          </div>
+        </div>
+
+        <nav class="sidebar-nav">
+          <a href="{{url_for('dashboardAdmin_')}}" class="nav-item" data-page="dashboard">
+            <div class="nav-item-icon">🏠</div>
+            <span>Dashboard</span>
+          </a>
+          <a href="{{url_for('books_page')}}" class="nav-item" data-page="books">
+            <div class="nav-item-icon">📚</div>
+            <span>Books</span>
+          </a>
+          <a href="{{url_for('members_page')}}" class="nav-item" data-page="members">
+            <div class="nav-item-icon">👥</div>
+            <span>Members</span>
+          </a>
+          <a href="{{url_for('checkout_page')}}" class="nav-item" data-page="checkout">
+            <div class="nav-item-icon">🔁</div>
+            <span>Checkout</span>
+          </a>
+          <a href="{{url_for('logout_admin')}}" class="nav-item">
+            <div class="nav-item-icon">🚪</div>
+            <span>Logout</span>
+          </a>
+        </nav>
+      </aside>
+
+      <main class="main">
+        <header class="topbar">
+          <div></div>
+          <div class="topbar-right">
+            <span>Admin</span>
+            <span class="badge-pill">
+              <span class="status-dot"></span>
+              UNO Connected
+            </span>
+          </div>
+        </header>
+
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <div class="flash">{{ messages[0] }}</div>
+          {% endif %}
+        {% endwith %}
+        {% if error %}
+          <div class="flash">{{ error }}</div>
+        {% endif %}
+
+        <section class="page-header">
+          <div>
+            <h2>{% if mode == "edit" %}Edit Book{% else %}Add Book{% endif %}</h2>
+            <p>Maintain the RFID-to-book mapping.</p>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="card">
+            <form method="post" style="display: grid; gap: 14px; max-width: 560px">
+              <div class="field" style="margin-bottom: 0">
+                <label for="rfid_uid">RFID UID</label>
+                <div class="input-wrap">
+                  <span class="input-icon">🏷️</span>
+                  <input id="rfid_uid" name="rfid_uid" value="{{ book.rfid_uid or book.get('rfid_uid','') }}" placeholder="D5B93B03" required />
+                </div>
+              </div>
+
+              <div class="field" style="margin-bottom: 0">
+                <label for="title">Title</label>
+                <div class="input-wrap">
+                  <span class="input-icon">📘</span>
+                  <input id="title" name="title" value="{{ book.title or book.get('title','') }}" placeholder="The Great Gatsby" required />
+                </div>
+              </div>
+
+              <div class="field" style="margin-bottom: 0">
+                <label for="author">Author</label>
+                <div class="input-wrap">
+                  <span class="input-icon">✍️</span>
+                  <input id="author" name="author" value="{{ book.author or book.get('author','') }}" placeholder="F. Scott Fitzgerald" required />
+                </div>
+              </div>
+
+              <div class="field" style="margin-bottom: 0">
+                <label for="isbn">ISBN (optional)</label>
+                <div class="input-wrap">
+                  <span class="input-icon">🔢</span>
+                  <input id="isbn" name="isbn" value="{{ book.isbn or book.get('isbn','') }}" placeholder="978-0-7432-7356-5" />
+                </div>
+              </div>
+
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px">
+                <div class="field" style="margin-bottom: 0">
+                  <label for="category">Category</label>
+                  <div class="input-wrap">
+                    <span class="input-icon">🏷️</span>
+                    <input id="category" name="category" value="{{ book.category or book.get('category','') }}" placeholder="Fiction" />
+                  </div>
+                </div>
+                <div class="field" style="margin-bottom: 0">
+                  <label for="year_published">Year</label>
+                  <div class="input-wrap">
+                    <span class="input-icon">📅</span>
+                    <input id="year_published" name="year_published" value="{{ book.year_published or book.get('year_published','') }}" placeholder="1925" />
+                  </div>
+                </div>
+              </div>
+
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px">
+                <div class="field" style="margin-bottom: 0">
+                  <label for="total_copies">Total copies</label>
+                  <div class="input-wrap">
+                    <span class="input-icon">📚</span>
+                    <input id="total_copies" name="total_copies" type="number" min="1" value="{{ book.total_copies or book.get('total_copies',1) }}" />
+                  </div>
+                </div>
+                {% if mode == "edit" %}
+                <div class="field" style="margin-bottom: 0">
+                  <label for="available_copies">Available copies</label>
+                  <div class="input-wrap">
+                    <span class="input-icon">✅</span>
+                    <input id="available_copies" name="available_copies" type="number" min="0" value="{{ book.available_copies }}" />
+                  </div>
+                </div>
+                {% endif %}
+              </div>
+
+              <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap">
+                <button class="btn-primary" type="submit">
+                  {% if mode == "edit" %}Save changes{% else %}Create book{% endif %}
+                </button>
+                <a class="btn-outline" href="{{ url_for('books_page') }}">Cancel</a>
+              </div>
+            </form>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+  </body>
+</html>
+
